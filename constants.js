@@ -27,11 +27,17 @@ export const LANGUAGES = ["uz", "en"];
 
 export const TEXTS = {
   uz: {
+    errors: {
+      required: "Iltimos javobni tanlang",
+    },
     footer: {
       submit: "Jo'natish",
     },
   },
   en: {
+    errors: {
+      required: "Please pick the answer",
+    },
     footer: {
       submit: "Submit",
     },

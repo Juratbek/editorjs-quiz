@@ -56,3 +56,8 @@
   border-radius: 0.3rem;
   cursor: pointer;
 }
+
+.cdx-quiz-error {
+  color: #dddd00;
+  padding: 0.5rem 0;
+}

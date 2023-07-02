@@ -111,6 +111,23 @@ class Quiz {
     this._renderVariants();
   }
 
+  _renderError(message) {
+    let error = document.querySelector(".cdx-quiz-error");
+    if (error) {
+      error.innerText = message;
+      return;
+    }
+    error = document.createElement("div");
+    error.className = "cdx-quiz-error";
+    error.innerText = message;
+    this.body.appendChild(error);
+  }
+
+  _clearError() {
+    const error = document.querySelector(".cdx-quiz-error");
+    error && error.remove();
+  }
+
   _renderFooter() {
     this.footer.className = "quiz-footer";
 
@@ -118,12 +135,15 @@ class Quiz {
     if (this.readOnly) {
       const submitBtn = createButton();
       submitBtn.innerText = TEXTS[this.#language].footer.submit;
-      submitBtn.disabled = this.#answers.size === 0;
       submitBtn.onclick = () => {
-        this.config.onSubmit({
-          id: this.block.id,
-          selectedVariants: this.#answers,
-        });
+        if (this.#answers.size === 0) {
+          this._renderError(TEXTS[this.#language].errors.required);
+        } else {
+          this.config.onSubmit({
+            id: this.block.id,
+            selectedVariants: this.#answers,
+          });
+        }
       };
       buttons.appendChild(submitBtn);
     } else {
@@ -144,8 +164,6 @@ class Quiz {
     // if input is unchecked remove the value from the answers
     if (!checked) {
       this.#answers.delete(value);
-      // render footer for enabling/disabling submit button
-      this.readOnly && this._renderFooter();
       return;
     }
 
@@ -155,8 +173,7 @@ class Quiz {
     } else {
       this.#answers.add(value);
     }
-    // render footer for enabling/disabling submit button
-    this.readOnly && this._renderFooter();
+    this._clearError();
   };
 
   _variantTextChangeHandler = (event, index) => {
