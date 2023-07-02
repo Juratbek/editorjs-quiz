@@ -1,4 +1,4 @@
-import { settings, Toolbox, TYPES } from "./constants";
+import { LANGUAGES, settings, TEXTS, Toolbox, TYPES } from "./constants";
 import {
   createButton,
   createIconButton,
@@ -11,19 +11,23 @@ class Quiz {
   #answers = new Set();
   #variants = [{ value: 0, text: "" }];
   #type = "singleSelect";
+  #language = "uz";
 
   constructor(args) {
     const { data, block, readOnly, config, api } = args;
     this.data = data;
-    this.readOnly = readOnly;
+    this.readOnly = readOnly ?? false;
     this.config = config;
     this.block = block;
     this.api = api;
     this.settings = settings;
+
     if (Array.isArray(data?.variants))
       this.#variants = Array.from(data.variants);
     if (Array.isArray(data?.answers)) this.#answers = new Set(data.answers);
     if (typeof data?.type === "string") this.#type = data.type;
+    if (LANGUAGES.includes(config.language)) this.#language = config.language;
+
     // creating container and body
     this.container = document.createElement("div");
     this.body = document.createElement("form");
@@ -109,7 +113,7 @@ class Quiz {
     const buttons = document.createElement("div");
     if (this.readOnly) {
       const submitBtn = createButton();
-      submitBtn.innerText = "Submit";
+      submitBtn.innerText = TEXTS[this.#language].footer.submit;
       submitBtn.onclick = () => {
         this.config.onSubmit("this is for test");
       };

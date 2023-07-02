@@ -18,7 +18,14 @@ export function createIconButton(config) {
 }
 
 export function createVariant({ text, value, index }, name, config) {
-  const { onInputChange, onTextChange, inputType, onDelete, cheched } = config;
+  const {
+    onInputChange,
+    onTextChange,
+    inputType,
+    onDelete,
+    cheched,
+    readOnly,
+  } = config;
 
   // creating an item
   const item = document.createElement("div");
@@ -37,19 +44,21 @@ export function createVariant({ text, value, index }, name, config) {
   // creating editable paragraph
   const paragraph = document.createElement("p");
   paragraph.innerHTML = text;
-  paragraph.contentEditable = true;
+  paragraph.contentEditable = !readOnly;
   paragraph.className = "quiz-item__text";
   paragraph.setAttribute("data-index", index);
   paragraph.onblur = (event) => onTextChange(event, index);
   item.appendChild(paragraph);
 
-  // creating a delete icon
-  const deleteBtn = createIconButton();
-  const deleteIcon = document.createElement("span");
-  deleteIcon.innerHTML = "&#8722;";
-  deleteBtn.appendChild(deleteIcon);
-  deleteBtn.onclick = () => onDelete(index);
-  item.appendChild(deleteBtn);
+  if (!readOnly) {
+    // creating a delete icon
+    const deleteBtn = createIconButton();
+    const deleteIcon = document.createElement("span");
+    deleteIcon.innerHTML = "&#8722;";
+    deleteBtn.appendChild(deleteIcon);
+    deleteBtn.onclick = () => onDelete(index);
+    item.appendChild(deleteBtn);
+  }
 
   return item;
 }
@@ -79,6 +88,7 @@ export function renderVariants(variants, type, context) {
     const item = createVariant({ ...variant, index }, context.block.id, {
       inputType: type === TYPES.multiSelect ? "checkbox" : "radio",
       cheched: context.getAnswers().has(variant.value),
+      readOnly: context.readOnly,
       onInputChange: context._variantInputChangeHandler,
       onTextChange: context._variantTextChangeHandler,
       onDelete: context._deleteVariant,
