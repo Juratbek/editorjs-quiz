@@ -24,14 +24,20 @@ class Quiz {
 
     if (Array.isArray(data?.variants))
       this.#variants = Array.from(data.variants);
-    if (Array.isArray(data?.answers)) this.#answers = new Set(data.answers);
+    if (Array.isArray(data?.answers) && !readOnly) {
+      this.#answers = new Set(data.answers);
+    }
     if (typeof data?.type === "string") this.#type = data.type;
     if (LANGUAGES.includes(config.language)) this.#language = config.language;
 
-    // creating container and body
+    // creating container
     this.container = document.createElement("div");
+    // adding body
     this.body = document.createElement("form");
     this.container.appendChild(this.body);
+    // adding footer
+    this.footer = document.createElement("div");
+    this.container.appendChild(this.footer);
   }
 
   static get isReadOnlySupported() {
@@ -106,16 +112,18 @@ class Quiz {
   }
 
   _renderFooter() {
-    // create footer
-    const footer = document.createElement("div");
-    footer.className = "quiz-footer";
+    this.footer.className = "quiz-footer";
 
     const buttons = document.createElement("div");
     if (this.readOnly) {
       const submitBtn = createButton();
       submitBtn.innerText = TEXTS[this.#language].footer.submit;
+      submitBtn.disabled = this.#answers.size === 0;
       submitBtn.onclick = () => {
-        this.config.onSubmit("this is for test");
+        this.config.onSubmit({
+          id: this.block.id,
+          selectedVariants: this.#answers,
+        });
       };
       buttons.appendChild(submitBtn);
     } else {
@@ -125,8 +133,8 @@ class Quiz {
       buttons.appendChild(addVariantBtn);
     }
 
-    footer.appendChild(buttons);
-    this.container.appendChild(footer);
+    this.footer.innerHTML = "";
+    this.footer.appendChild(buttons);
   }
 
   _variantInputChangeHandler = (event) => {
@@ -136,6 +144,8 @@ class Quiz {
     // if input is unchecked remove the value from the answers
     if (!checked) {
       this.#answers.delete(value);
+      // render footer for enabling/disabling submit button
+      this.readOnly && this._renderFooter();
       return;
     }
 
@@ -145,6 +155,8 @@ class Quiz {
     } else {
       this.#answers.add(value);
     }
+    // render footer for enabling/disabling submit button
+    this.readOnly && this._renderFooter();
   };
 
   _variantTextChangeHandler = (event, index) => {

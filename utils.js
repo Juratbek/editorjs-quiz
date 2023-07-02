@@ -1,5 +1,4 @@
 import { TYPES } from "./constants";
-// import "./index.css";
 
 export function createButton() {
   const button = document.createElement("button");
