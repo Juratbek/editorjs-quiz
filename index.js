@@ -2,10 +2,12 @@ import { LANGUAGES, settings, TEXTS, Toolbox, TYPES } from "./constants";
 import {
   createButton,
   createIconButton,
+  createLoader,
   renderSettings,
   renderVariants,
 } from "./utils";
 import "./index.css";
+import "./loader.css";
 
 class Quiz {
   #answers = new Set();
@@ -134,15 +136,27 @@ class Quiz {
     const buttons = document.createElement("div");
     if (this.readOnly) {
       const submitBtn = createButton();
-      submitBtn.innerText = TEXTS[this.#language].footer.submit;
-      submitBtn.onclick = () => {
+      const submitText = TEXTS[this.#language].footer.submit;
+      submitBtn.innerText = submitText;
+
+      submitBtn.onclick = async () => {
         if (this.#answers.size === 0) {
           this._renderError(TEXTS[this.#language].errors.required);
         } else {
-          this.config.onSubmit({
-            id: this.block.id,
-            selectedVariants: this.#answers,
-          });
+          const loader = createLoader();
+          submitBtn.innerText = "";
+          submitBtn.appendChild(loader);
+
+          try {
+            await this.config.onSubmit({
+              id: this.block.id,
+              selectedVariants: this.#answers,
+            });
+          } catch (e) {
+            console.error(e);
+          }
+
+          // submitBtn.innerText = submitText;
         }
       };
       buttons.appendChild(submitBtn);

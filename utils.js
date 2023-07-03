@@ -126,3 +126,10 @@ export function prevent(event) {
   event.stopPropagation();
   event.preventDefault();
 }
+
+export function createLoader() {
+  const loader = document.createElement("div");
+  loader.className = "cdx-quiz-lds-ring";
+  loader.innerHTML = "<div></div><div></div><div></div><div></div>";
+  return loader;
+}
