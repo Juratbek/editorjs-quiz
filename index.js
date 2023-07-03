@@ -156,7 +156,7 @@ class Quiz {
             console.error(e);
           }
 
-          // submitBtn.innerText = submitText;
+          submitBtn.innerText = submitText;
         }
       };
       buttons.appendChild(submitBtn);
