@@ -2,7 +2,7 @@
 
 This tool for the [Editor.js](https://editorjs.io) allows you to add single select and multi select tests, submitting them.
 
-![](assets/example.mp4)
+![](assets/example.png)
 
 ## Installation
 
