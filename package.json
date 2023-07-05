@@ -1,6 +1,6 @@
 {
   "name": "@juratbek/editorjs-quiz",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "quiz plugin for editorjs",
   "main": "./dist/bundle.js",
   "scripts": {
