@@ -114,7 +114,7 @@ class Quiz {
   }
 
   _renderError(message) {
-    let error = document.querySelector(".cdx-quiz-error");
+    let error = this.body.querySelector(".cdx-quiz-error");
     if (error) {
       error.innerText = message;
       return;
@@ -126,7 +126,7 @@ class Quiz {
   }
 
   _clearError() {
-    const error = document.querySelector(".cdx-quiz-error");
+    const error = this.body.querySelector(".cdx-quiz-error");
     error && error.remove();
   }
 
@@ -140,6 +140,7 @@ class Quiz {
       submitBtn.innerText = submitText;
 
       submitBtn.onclick = async () => {
+        console.log(this.#answers);
         if (this.#answers.size === 0) {
           this._renderError(TEXTS[this.#language].errors.required);
         } else {
@@ -150,7 +151,7 @@ class Quiz {
           try {
             await this.config.onSubmit({
               id: this.block.id,
-              selectedVariants: this.#answers,
+              selectedVariants: Array.from(this.#answers),
             });
           } catch (e) {
             console.error(e);
@@ -183,7 +184,7 @@ class Quiz {
 
     // add the value to the answers
     if (this.#type === TYPES.singleSelect) {
-      this.#answers = [value];
+      this.#answers = new Set([value]);
     } else {
       this.#answers.add(value);
     }

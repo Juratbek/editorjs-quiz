@@ -31,7 +31,7 @@ export const TEXTS = {
       required: "Iltimos javobni tanlang",
     },
     footer: {
-      submit: "Jo'natish",
+      submit: "Tekshirish",
     },
   },
   en: {
