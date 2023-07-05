@@ -34,6 +34,7 @@ class Quiz {
 
     // creating container
     this.container = document.createElement("div");
+    this.container.className = "quiz-tool-container";
     // adding body
     this.body = document.createElement("form");
     this.container.appendChild(this.body);
@@ -140,7 +141,6 @@ class Quiz {
       submitBtn.innerText = submitText;
 
       submitBtn.onclick = async () => {
-        console.log(this.#answers);
         if (this.#answers.size === 0) {
           this._renderError(TEXTS[this.#language].errors.required);
         } else {
