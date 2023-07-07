@@ -2,7 +2,7 @@
   display: flex;
   justify-content: flex-end;
   border-top: 0.5px solid #92929238;
-  padding-top: 0.5rem;
+  padding-top: 0.3rem;
 }
 
 .delete-icon-btn {
@@ -49,7 +49,7 @@
   font-size: 1.4rem;
 }
 
-.quiz-button {
+.qt-button {
   all: unset;
   border: 1px solid gray;
   padding: 0.4rem 0.7rem;
@@ -60,4 +60,14 @@
 .cdx-quiz-error {
   color: #dddd00;
   padding: 0.5rem 0;
+}
+
+.qt-add-btn {
+  flex: 1;
+  text-align: center;
+  border: unset;
+}
+
+.qt-add-btn:hover {
+  background-color: #e0e0e0;
 }

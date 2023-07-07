@@ -134,7 +134,7 @@ class Quiz {
   _renderFooter() {
     this.footer.className = "quiz-footer";
 
-    const buttons = document.createElement("div");
+    const buttons = document.createDocumentFragment();
     if (this.readOnly) {
       const submitBtn = createButton();
       const submitText = TEXTS[this.#language].footer.submit;
@@ -162,7 +162,8 @@ class Quiz {
       };
       buttons.appendChild(submitBtn);
     } else {
-      const addVariantBtn = createIconButton({ size: "medium" });
+      const addVariantBtn = createButton();
+      addVariantBtn.classList.add("qt-add-btn");
       addVariantBtn.innerText = "+";
       addVariantBtn.onclick = () => this._addVariant();
       buttons.appendChild(addVariantBtn);

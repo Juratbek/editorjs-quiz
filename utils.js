@@ -2,7 +2,7 @@ import { TYPES } from "./constants";
 
 export function createButton() {
   const button = document.createElement("button");
-  button.className = "quiz-button";
+  button.className = "qt-button";
   button.type = "button";
   return button;
 }
