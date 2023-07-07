@@ -10,6 +10,7 @@ export const settings = [
     name: "Single Select",
     type: TYPES.singleSelect,
     icon: RadioInputIcon,
+    className: "qt-settings-icon__single",
   },
   {
     name: "Multi Select",

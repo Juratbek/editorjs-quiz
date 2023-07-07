@@ -69,6 +69,7 @@ export function renderSettings(settings, onClick, context) {
     const button = document.createElement("div");
 
     button.classList.add(context.api.styles.settingsButton);
+    button.classList.add(tune.className);
     button.onclick = () => {
       onClick(tune);
       button.classList.add(context.api.styles.settingsButtonActive);
