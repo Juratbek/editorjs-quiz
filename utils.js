@@ -29,6 +29,7 @@ export function createVariant({ text, value, index }, name, config) {
   // creating an item
   const item = document.createElement("div");
   item.className = "quiz-item";
+  if (readOnly) item.classList.add("quiz-item__hoverable");
   item.tabIndex = "0";
 
   // creating a radio/checkbox
@@ -48,6 +49,9 @@ export function createVariant({ text, value, index }, name, config) {
   paragraph.setAttribute("data-index", index);
   paragraph.onblur = (event) => onTextChange(event, index);
   item.appendChild(paragraph);
+
+  // if read only mode select the item on click
+  if (readOnly) item.onclick = () => input.click();
 
   if (!readOnly) {
     // creating a delete icon

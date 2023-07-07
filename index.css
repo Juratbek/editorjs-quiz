@@ -12,7 +12,13 @@
 .quiz-item {
   display: flex;
   gap: 10px;
-  padding: 5px 0;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.quiz-item__hoverable:hover {
+  background-color: rgb(245 245 245);
+  cursor: pointer;
 }
 
 .quiz-item__text {
