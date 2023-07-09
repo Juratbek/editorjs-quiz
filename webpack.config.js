@@ -2,7 +2,6 @@ const path = require("path");
 
 module.exports = {
   entry: "./index.js",
-  target: "node",
   module: {
     rules: [
       {
@@ -17,5 +16,6 @@ module.exports = {
     clean: true,
     libraryTarget: "umd",
     libraryExport: "default",
+    library: "Quiz"
   },
 };

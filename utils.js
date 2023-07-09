@@ -22,7 +22,7 @@ export function createVariant({ text, value, index }, name, config) {
     onTextChange,
     inputType,
     onDelete,
-    cheched,
+    checked,
     readOnly,
   } = config;
 
@@ -37,8 +37,8 @@ export function createVariant({ text, value, index }, name, config) {
   input.type = inputType;
   input.name = name;
   input.value = value;
-  input.checked = cheched;
-  input.onchange = onInputChange;
+  input.checked = checked;
+  input.onclick = onInputChange;
   item.appendChild(input);
 
   // creating editable paragraph
@@ -76,7 +76,7 @@ export function renderSettings(settings, onClick, context) {
     button.classList.add(tune.className);
     button.onclick = () => {
       onClick(tune);
-      button.classList.add(context.api.styles.settingsButtonActive);
+      button.classList.toggle(context.api.styles.settingsButtonActive);
     };
     button.innerHTML = tune.icon;
     wrapper.appendChild(button);
@@ -91,7 +91,7 @@ export function renderVariants(variants, type, context) {
   variants.forEach((variant, index) => {
     const item = createVariant({ ...variant, index }, context.block.id, {
       inputType: type === TYPES.multiSelect ? "checkbox" : "radio",
-      cheched: context.getAnswers().has(variant.value),
+      checked: context.getAnswers().has(variant.value),
       readOnly: context.readOnly,
       onInputChange: context._variantInputChangeHandler,
       onTextChange: context._variantTextChangeHandler,
