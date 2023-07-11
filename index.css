@@ -11,6 +11,7 @@
 
 .quiz-item {
   display: flex;
+  align-items: center;
   gap: 10px;
   padding: 5px;
   border-radius: 3px;
@@ -77,3 +78,75 @@
 .qt-add-btn:hover {
   background-color: #e0e0e0;
 }
+
+/* Custom Styles for radio/checkbox inputs */
+.quiz-item input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark--radio {
+  border-radius: 50%;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.quiz-item:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.quiz-item input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.quiz-item input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.quiz-item .checkmark--checkbox:after {
+  left: 50%;
+  top: 50%;
+  translate: -50% -60%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.quiz-item .checkmark--radio:after {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
+.quiz-item label {
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+
+

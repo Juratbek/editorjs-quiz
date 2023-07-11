@@ -32,6 +32,8 @@ export function createVariant({ text, value, index }, name, config) {
   if (readOnly) item.classList.add("quiz-item__hoverable");
   item.tabIndex = "0";
 
+  const label = document.createElement('label')
+
   // creating a radio/checkbox
   const input = document.createElement("input");
   input.type = inputType;
@@ -48,10 +50,20 @@ export function createVariant({ text, value, index }, name, config) {
   paragraph.className = "quiz-item__text";
   paragraph.setAttribute("data-index", index);
   paragraph.onblur = (event) => onTextChange(event, index);
+
+  const checkmark = document.createElement("span")
+  checkmark.classList.add("checkmark", `checkmark--${inputType}`)
+
+  label.appendChild(input)
+  label.appendChild(checkmark)
+  item.appendChild(label)
   item.appendChild(paragraph);
 
   // if read only mode select the item on click
-  if (readOnly) item.onclick = () => input.click();
+  if (readOnly) item.onclick = (e) => {
+    if (e.target.classList.contains('checkmark')) return e.stopPropagation()
+    input.click()
+  };
 
   if (!readOnly) {
     // creating a delete icon
