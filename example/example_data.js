@@ -3,14 +3,14 @@ let example_data = {
 		{
 			type: "header",
 			data: {
-				text: "Example : @calumk/editorjs-codeflask ",
+				text: "Example: @juratbek/editorjs-quiz",
 				level: 3,
 			},
 		},
 		{
 			type: "paragraph",
 			data: {
-				text: "This is an example of using EditorJs, with the @calumk/editorjs-codeflask package",
+				text: "This is an example of using EditorJs, with @juratbek/editorjs-quiz package",
 			},
 		},
 		{

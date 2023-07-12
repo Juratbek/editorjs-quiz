@@ -6,7 +6,7 @@ import {
   renderSettings,
   renderVariants,
 } from "./utils";
-import "./index.css";
+import "./index.scss";
 import "./loader.css";
 
 class Quiz {

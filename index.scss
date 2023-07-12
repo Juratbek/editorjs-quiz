@@ -80,73 +80,76 @@
 }
 
 /* Custom Styles for radio/checkbox inputs */
-.quiz-item input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
 
-.checkmark--radio {
-  border-radius: 50%;
-}
+.quiz-item {
+  &:hover input ~ &__checkmark {
+    background-color: #ccc;
+  }
 
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 18px;
-  width: 18px;
-  background-color: #eee;
-  cursor: pointer;
-}
+  & input:checked ~ &__checkmark {
+    background-color: #2196F3;
+  }
 
-.quiz-item:hover input ~ .checkmark {
-  background-color: #ccc;
-}
+  & input:checked ~ &__checkmark::after {
+    display: block;
+  }
 
-.quiz-item input:checked ~ .checkmark {
-  background-color: #2196F3;
-}
+  &__label {
+    position: relative;
+    width: 18px;
+    height: 18px;
+  }
 
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
 
-.quiz-item input:checked ~ .checkmark:after {
-  display: block;
-}
+  &__checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    cursor: pointer;
 
-.quiz-item .checkmark--checkbox:after {
-  left: 50%;
-  top: 50%;
-  translate: -50% -60%;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
+    &--radio {
+      border-radius: 50%;
+    }
 
-.quiz-item .checkmark--radio:after {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: white;
-}
+    &--radio::after {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+    }
 
-.quiz-item label {
-  position: relative;
-  width: 18px;
-  height: 18px;
+    &--checkbox::after {
+      left: 50%;
+      top: 50%;
+      translate: -50% -60%;
+      width: 4px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+  }
 }
 
 

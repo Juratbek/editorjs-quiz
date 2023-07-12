@@ -33,6 +33,7 @@ export function createVariant({ text, value, index }, name, config) {
   item.tabIndex = "0";
 
   const label = document.createElement('label')
+  label.classList.add("quiz-item__label")
 
   // creating a radio/checkbox
   const input = document.createElement("input");
@@ -52,7 +53,7 @@ export function createVariant({ text, value, index }, name, config) {
   paragraph.onblur = (event) => onTextChange(event, index);
 
   const checkmark = document.createElement("span")
-  checkmark.classList.add("checkmark", `checkmark--${inputType}`)
+  checkmark.classList.add("quiz-item__checkmark", `quiz-item__checkmark--${inputType}`)
 
   label.appendChild(input)
   label.appendChild(checkmark)
@@ -61,7 +62,7 @@ export function createVariant({ text, value, index }, name, config) {
 
   // if read only mode select the item on click
   if (readOnly) item.onclick = (e) => {
-    if (e.target.classList.contains('checkmark')) return e.stopPropagation()
+    if (e.target.classList.contains('quiz-item__checkmark')) return e.stopPropagation()
     input.click()
   };
 
