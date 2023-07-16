@@ -22,7 +22,7 @@ export function createVariant({ text, value, index }, name, config) {
     onTextChange,
     inputType,
     onDelete,
-    cheched,
+    checked,
     readOnly,
   } = config;
 
@@ -32,13 +32,16 @@ export function createVariant({ text, value, index }, name, config) {
   if (readOnly) item.classList.add("quiz-item__hoverable");
   item.tabIndex = "0";
 
+  const label = document.createElement('label')
+  label.classList.add("quiz-item__label")
+
   // creating a radio/checkbox
   const input = document.createElement("input");
   input.type = inputType;
   input.name = name;
   input.value = value;
-  input.checked = cheched;
-  input.onchange = onInputChange;
+  input.checked = checked;
+  input.onclick = onInputChange;
   item.appendChild(input);
 
   // creating editable paragraph
@@ -48,10 +51,20 @@ export function createVariant({ text, value, index }, name, config) {
   paragraph.className = "quiz-item__text";
   paragraph.setAttribute("data-index", index);
   paragraph.onblur = (event) => onTextChange(event, index);
+
+  const checkmark = document.createElement("span")
+  checkmark.classList.add("quiz-item__checkmark", `quiz-item__checkmark--${inputType}`)
+
+  label.appendChild(input)
+  label.appendChild(checkmark)
+  item.appendChild(label)
   item.appendChild(paragraph);
 
   // if read only mode select the item on click
-  if (readOnly) item.onclick = () => input.click();
+  if (readOnly) item.onclick = (e) => {
+    if (e.target.classList.contains('quiz-item__checkmark')) return e.stopPropagation()
+    input.click()
+  };
 
   if (!readOnly) {
     // creating a delete icon
@@ -76,7 +89,7 @@ export function renderSettings(settings, onClick, context) {
     button.classList.add(tune.className);
     button.onclick = () => {
       onClick(tune);
-      button.classList.add(context.api.styles.settingsButtonActive);
+      button.classList.toggle(context.api.styles.settingsButtonActive);
     };
     button.innerHTML = tune.icon;
     wrapper.appendChild(button);
@@ -91,7 +104,7 @@ export function renderVariants(variants, type, context) {
   variants.forEach((variant, index) => {
     const item = createVariant({ ...variant, index }, context.block.id, {
       inputType: type === TYPES.multiSelect ? "checkbox" : "radio",
-      cheched: context.getAnswers().has(variant.value),
+      checked: context.getAnswers().has(variant.value),
       readOnly: context.readOnly,
       onInputChange: context._variantInputChangeHandler,
       onTextChange: context._variantTextChangeHandler,

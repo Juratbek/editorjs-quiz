@@ -6,7 +6,7 @@ import {
   renderSettings,
   renderVariants,
 } from "./utils";
-import "./index.css";
+import "./index.scss";
 import "./loader.css";
 
 class Quiz {
@@ -67,9 +67,11 @@ class Quiz {
   };
 
   _changeType = (setting) => {
-    this.#type = setting.type;
-    this.#answers = new Set();
-    this._renderVariants();
+    if (setting.type !== this.#type) {
+      this.#type = setting.type;
+      this.#answers = new Set();
+      this._renderVariants();
+    }
   };
 
   _addVariant = (index) => {
@@ -174,6 +176,7 @@ class Quiz {
   }
 
   _variantInputChangeHandler = (event) => {
+    event.stopPropagation()
     const value = Number(event.target.value);
     const checked = event.target.checked;
 
