@@ -7,15 +7,18 @@ export const TYPES = {
 
 export const settings = [
   {
-    name: "Single Select",
+    title: "Single Select",
+    name: "single-select",
     type: TYPES.singleSelect,
     icon: RadioInputIcon,
     className: "qt-settings-icon__single",
   },
   {
-    name: "Multi Select",
+    title: "Multi Select",
+    name: "multi-select",
     type: TYPES.multiSelect,
     icon: CheckboxIcon,
+    className: "qt-settings-icon__multi",
   },
 ];
 

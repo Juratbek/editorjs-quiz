@@ -32,8 +32,8 @@ export function createVariant({ text, value, index }, name, config) {
   if (readOnly) item.classList.add("quiz-item__hoverable");
   item.tabIndex = "0";
 
-  const label = document.createElement('label')
-  label.classList.add("quiz-item__label")
+  const label = document.createElement("label");
+  label.classList.add("quiz-item__label");
 
   // creating a radio/checkbox
   const input = document.createElement("input");
@@ -52,19 +52,24 @@ export function createVariant({ text, value, index }, name, config) {
   paragraph.setAttribute("data-index", index);
   paragraph.onblur = (event) => onTextChange(event, index);
 
-  const checkmark = document.createElement("span")
-  checkmark.classList.add("quiz-item__checkmark", `quiz-item__checkmark--${inputType}`)
+  const checkmark = document.createElement("span");
+  checkmark.classList.add(
+    "quiz-item__checkmark",
+    `quiz-item__checkmark--${inputType}`
+  );
 
-  label.appendChild(input)
-  label.appendChild(checkmark)
-  item.appendChild(label)
+  label.appendChild(input);
+  label.appendChild(checkmark);
+  item.appendChild(label);
   item.appendChild(paragraph);
 
   // if read only mode select the item on click
-  if (readOnly) item.onclick = (e) => {
-    if (e.target.classList.contains('quiz-item__checkmark')) return e.stopPropagation()
-    input.click()
-  };
+  if (readOnly)
+    item.onclick = (e) => {
+      if (e.target.classList.contains("quiz-item__checkmark"))
+        return e.stopPropagation();
+      input.click();
+    };
 
   if (!readOnly) {
     // creating a delete icon
@@ -83,16 +88,28 @@ export function renderSettings(settings, onClick, context) {
   const wrapper = document.createElement("div");
 
   settings.forEach((tune) => {
-    const button = document.createElement("div");
+    const item = document.createElement("div");
 
-    button.classList.add(context.api.styles.settingsButton);
-    button.classList.add(tune.className);
-    button.onclick = () => {
+    item.setAttribute("data-item-name", tune.name);
+    item.classList.add("ce-popover-item", tune.className);
+    item.onclick = () => {
       onClick(tune);
-      button.classList.toggle(context.api.styles.settingsButtonActive);
+      item.classList.toggle(context.api.styles.settingsButtonActive);
     };
-    button.innerHTML = tune.icon;
-    wrapper.appendChild(button);
+
+    // adding icon
+    const icon = document.createElement("div");
+    icon.classList.add("ce-popover-item__icon");
+    icon.innerHTML = tune.icon;
+    item.appendChild(icon);
+
+    // adding title
+    const title = document.createElement("div");
+    title.classList.add("ce-popover-item__title");
+    title.innerHTML = tune.title;
+    item.appendChild(title);
+
+    wrapper.appendChild(item);
   });
 
   return wrapper;
