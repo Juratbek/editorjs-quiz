@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./index.js",
+  entry: "./src/index.js",
   module: {
     rules: [
       {
@@ -10,12 +10,8 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader",
-        ],
-      }
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
     ],
   },
   output: {
@@ -24,6 +20,6 @@ module.exports = {
     clean: true,
     libraryTarget: "umd",
     libraryExport: "default",
-    library: "Quiz"
+    library: "Quiz",
   },
 };
