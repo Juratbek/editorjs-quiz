@@ -1,11 +1,12 @@
 {
   "name": "@juratbek/editorjs-quiz",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "quiz plugin for editorjs",
   "main": "./dist/bundle.js",
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack --mode development --watch",
+    "publish": "npm publish --public",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
