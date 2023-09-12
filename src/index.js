@@ -31,6 +31,7 @@ class Quiz {
       this.#answers = new Set(data.answers);
     }
     if (typeof data?.type === "string") this.#type = data.type;
+    if (typeof data?.question === "string") this.#question = data.question;
     if (LANGUAGES.includes(config.language)) this.#language = config.language;
 
     // creating container
@@ -104,8 +105,12 @@ class Quiz {
   };
 
   _renderQuestion() {
+    // render nothing if question is not provided in read only mode
+    if (this.readOnly && !this.#question) return;
+
     const question = document.createElement("p");
     question.className = "question";
+    question.innerHTML = this.#question;
     question.contentEditable = true;
     question.onblur = (event) => (this.#question = event.target.innerHTML);
     this.header.appendChild(question);
