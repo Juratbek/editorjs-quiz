@@ -1,3 +1,23 @@
+.quiz-header {
+  .question {
+    position: relative;
+    margin: 0;
+    line-height: 25px;
+    width: 100%;
+    outline: none;
+
+    &:empty::before {
+      content: "Savolingizni bu yerga yozing";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      pointer-events: none;
+      color: #999;
+    }
+  }
+}
+
 .quiz-footer {
   display: flex;
   justify-content: flex-end;
@@ -87,7 +107,7 @@
   }
 
   & input:checked ~ &__checkmark {
-    background-color: #2196F3;
+    background-color: #2196f3;
   }
 
   & input:checked ~ &__checkmark::after {
@@ -151,5 +171,3 @@
     }
   }
 }
-
-

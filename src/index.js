@@ -10,6 +10,7 @@ import "./index.scss";
 import "./loader.css";
 
 class Quiz {
+  #question = "";
   #answers = new Set();
   #variants = [{ value: 0, text: "" }];
   #type = "singleSelect";
@@ -30,11 +31,16 @@ class Quiz {
       this.#answers = new Set(data.answers);
     }
     if (typeof data?.type === "string") this.#type = data.type;
+    if (typeof data?.question === "string") this.#question = data.question;
     if (LANGUAGES.includes(config.language)) this.#language = config.language;
 
     // creating container
     this.container = document.createElement("div");
     this.container.className = "quiz-tool-container";
+    // adding header
+    this.header = document.createElement("div");
+    this.header.className = "quiz-header";
+    this.container.appendChild(this.header);
     // adding body
     this.body = document.createElement("form");
     this.container.appendChild(this.body);
@@ -56,6 +62,7 @@ class Quiz {
   }
 
   render() {
+    this._renderHeader();
     this._renderBody();
     this._renderFooter();
 
@@ -65,6 +72,10 @@ class Quiz {
   renderSettings = () => {
     return renderSettings(this.settings, this._changeType, this);
   };
+
+  _renderHeader() {
+    this._renderQuestion();
+  }
 
   _changeType = (setting) => {
     if (setting.type !== this.#type) {
@@ -92,6 +103,18 @@ class Quiz {
     this.#variants = this.#variants.filter(Boolean);
     this._renderVariants();
   };
+
+  _renderQuestion() {
+    // render nothing if question is not provided in read only mode
+    if (this.readOnly && !this.#question) return;
+
+    const question = document.createElement("p");
+    question.className = "question";
+    question.innerHTML = this.#question;
+    question.contentEditable = true;
+    question.onblur = (event) => (this.#question = event.target.innerHTML);
+    this.header.appendChild(question);
+  }
 
   _renderVariants(config) {
     const { autoFocus = false, focusIndex } = config || {};
@@ -130,7 +153,7 @@ class Quiz {
 
   _clearError() {
     const error = this.body.querySelector(".cdx-quiz-error");
-    error && error.remove();
+    error?.remove();
   }
 
   _renderFooter() {
@@ -176,7 +199,7 @@ class Quiz {
   }
 
   _variantInputChangeHandler = (event) => {
-    event.stopPropagation()
+    event.stopPropagation();
     const value = Number(event.target.value);
     const checked = event.target.checked;
 
@@ -204,6 +227,7 @@ class Quiz {
 
   save() {
     return {
+      question: this.#question,
       variants: this.#variants,
       answers: Array.from(this.#answers),
       type: this.#type,
