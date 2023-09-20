@@ -7,7 +7,7 @@ import {
   renderVariants,
 } from "./utils";
 import "./index.scss";
-import "./loader.css";
+import "./loader.scss";
 
 class Quiz {
   #question = "";
