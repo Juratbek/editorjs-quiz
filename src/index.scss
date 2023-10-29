@@ -25,10 +25,6 @@
   padding-top: 0.3rem;
 }
 
-.delete-icon-btn {
-  display: none;
-}
-
 .quiz-item {
   display: flex;
   align-items: center;
@@ -57,6 +53,10 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 100rem;
+
+  &.disabled {
+    color: #bbbbbb;
+  }
 }
 
 .icon-button:hover {

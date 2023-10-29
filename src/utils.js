@@ -24,6 +24,7 @@ export function createVariant({ text, value, index }, name, config) {
     onDelete,
     checked,
     readOnly,
+    isDeleteDisabled,
   } = config;
 
   // creating an item
@@ -78,6 +79,8 @@ export function createVariant({ text, value, index }, name, config) {
     deleteIcon.innerHTML = "&#8722;";
     deleteBtn.appendChild(deleteIcon);
     deleteBtn.onclick = () => onDelete(index);
+    deleteBtn.disabled = isDeleteDisabled;
+    isDeleteDisabled && deleteBtn.classList.add("disabled");
     item.appendChild(deleteBtn);
   }
 
@@ -126,6 +129,7 @@ export function renderVariants(variants, type, context) {
       onInputChange: context._variantInputChangeHandler,
       onTextChange: context._variantTextChangeHandler,
       onDelete: context._deleteVariant,
+      isDeleteDisabled: variants.length <= context.validation.min,
     });
     variantsContainer.appendChild(item);
   });

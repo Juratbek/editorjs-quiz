@@ -12,9 +12,10 @@ import "./loader.scss";
 class Quiz {
   #question = "";
   #answers = new Set();
-  #variants = [{ value: 0, text: "" }];
+  #variants = [];
   #type = "singleSelect";
   #language = "uz";
+  #validation = { min: 2 };
 
   constructor(args) {
     const { data, block, readOnly, config, api } = args;
@@ -25,8 +26,10 @@ class Quiz {
     this.api = api;
     this.settings = settings;
 
-    if (Array.isArray(data?.variants))
-      this.#variants = Array.from(data.variants);
+    if (config.validation) {
+      this.#validation = { ...this.#validation, ...config.validation };
+    }
+    this._setVariants();
     if (Array.isArray(data?.answers) && !readOnly) {
       this.#answers = new Set(data.answers);
     }
@@ -34,19 +37,10 @@ class Quiz {
     if (typeof data?.question === "string") this.#question = data.question;
     if (LANGUAGES.includes(config.language)) this.#language = config.language;
 
-    // creating container
-    this.container = document.createElement("div");
-    this.container.className = "quiz-tool-container";
-    // adding header
-    this.header = document.createElement("div");
-    this.header.className = "quiz-header";
-    this.container.appendChild(this.header);
-    // adding body
-    this.body = document.createElement("form");
-    this.container.appendChild(this.body);
-    // adding footer
-    this.footer = document.createElement("div");
-    this.container.appendChild(this.footer);
+    this._createRootContainer();
+    this._insertHeader();
+    this._insertBody();
+    this._insertFooter();
   }
 
   static get isReadOnlySupported() {
@@ -224,6 +218,49 @@ class Quiz {
       text: event.target.innerHTML,
     };
   };
+
+  _setVariants() {
+    const min = this.#validation.min;
+
+    const isArray = Array.isArray(this.data?.variants);
+    if (!isArray) {
+      // if variants is not provided -> set default variants
+      this.#variants = Array(min)
+        .fill("")
+        .map((_, index) => ({ value: index, text: "" }));
+      return;
+    }
+
+    const variants = Array.from(this.data.variants);
+    if (variants.length < min)
+      console.error("Quiz plugin variants size should NOT be LESS than ", min);
+    this.#variants = variants;
+  }
+
+  _createRootContainer() {
+    this.container = document.createElement("div");
+    this.container.className = "quiz-tool-container";
+  }
+
+  _insertHeader() {
+    this.header = document.createElement("div");
+    this.header.className = "quiz-header";
+    this.container.appendChild(this.header);
+  }
+
+  _insertBody() {
+    this.body = document.createElement("form");
+    this.container.appendChild(this.body);
+  }
+
+  _insertFooter() {
+    this.footer = document.createElement("div");
+    this.container.appendChild(this.footer);
+  }
+
+  get validation() {
+    return this.#validation;
+  }
 
   save() {
     return {
